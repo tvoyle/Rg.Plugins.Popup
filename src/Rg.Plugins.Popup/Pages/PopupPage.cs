@@ -22,7 +22,7 @@ namespace Rg.Plugins.Popup.Pages
 
         #region Internal Properties
 
-        internal bool IsBeingDismissed { get; set; }
+        public bool IsBeingDismissed { get; set; }
 
         #endregion
 
@@ -240,7 +240,7 @@ namespace Rg.Plugins.Popup.Pages
 
         #region Internal Methods
 
-        internal async void SendBackgroundClick()
+        public async void SendBackgroundClick()
         {
             BackgroundClicked?.Invoke(this, EventArgs.Empty);
 
@@ -251,7 +251,7 @@ namespace Rg.Plugins.Popup.Pages
             }
         }
 
-        internal void SetSystemPadding(Thickness systemPadding, bool forceLayout = true)
+        public void SetSystemPadding(Thickness systemPadding, bool forceLayout = true)
         {
             var systemPaddingWasChanged = SystemPadding != systemPadding;
             SystemPadding = systemPadding;
