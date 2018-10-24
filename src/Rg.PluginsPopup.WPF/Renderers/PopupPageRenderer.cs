@@ -16,7 +16,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
     public class PopupPageRenderer : PageRenderer
     {
         private Rect _keyboardBounds;
-        private FrameworkElement content;
+        // private FrameworkElement content;
 
         internal WinPopup Container { get; private set; }
 

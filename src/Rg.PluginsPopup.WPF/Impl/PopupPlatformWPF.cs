@@ -91,8 +91,7 @@ namespace Rg.Plugins.Popup.WPF.Impl
             var elementRenderer = XPlatform.GetRenderer(element);
             foreach (Element descendant in element.Descendants())
             {
-                var child = descendant as VisualElement;
-                if (child != null)
+                if (descendant is VisualElement child)
                 {
                     var childRenderer = XPlatform.GetRenderer(child);
                     if (childRenderer != null)
