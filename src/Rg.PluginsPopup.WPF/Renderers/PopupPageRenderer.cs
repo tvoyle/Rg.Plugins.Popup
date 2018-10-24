@@ -1,9 +1,4 @@
-﻿//using System.Windows.Graphics.Display;
-//using System.Windows.Core;
-//using System.Windows.ViewManagement;
-//using System.Windows.Xaml;
-//using Windows.UI.Xaml.Input;
-using Rg.Plugins.Popup.Pages;
+﻿using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Windows.Renderers;
 using System;
 using System.Threading.Tasks;
@@ -11,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-//using Size = System.Windows.Foundation.Size;
 using Xamarin.Forms.Platform.WPF;
 using WinPopup = global::System.Windows.Controls.Primitives.Popup;
 
@@ -37,16 +31,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
         public FrameworkElement ContainerElement
         {
 
-            get
-            {
-                return Control;
-                if (content == null)
-                {
-                    content = (FrameworkElement)Control.Content;
-                    Control.Content = null;
-                }
-                return content;
-            }
+            get { return Control; }
         }
 
         //private void OnKeyboardHiding(InputPane sender, InputPaneVisibilityEventArgs args)
@@ -77,12 +62,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
         {
             Container = container;
             Container.AllowsTransparency = true;
-            //Container.StaysOpen = false;
-            //Container.RenderSize
             Container.Placement = PlacementMode.Absolute;
-            //Container.HorizontalOffset = 0;
-            //Container.VerticalOffset = 0;
-            //Container.CustomPopupPlacementCallback = OnCustomPopupPlacementCallback;
             Container.PlacementTarget = System.Windows.Application.Current.MainWindow;
             Container.Child = ContainerElement;
             Container.IsOpen = true;
