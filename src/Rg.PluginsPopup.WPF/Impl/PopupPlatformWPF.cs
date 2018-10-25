@@ -58,7 +58,7 @@ namespace Rg.Plugins.Popup.WPF.Impl
             var renderer = (PopupPageRenderer)XPlatform.GetOrCreateRenderer(page);
             if (renderer.Container == null)
             {
-                renderer.Prepare(new global::System.Windows.Controls.Primitives.Popup());
+                renderer.Prepare(new global::System.Windows.Window());
             }
             page.ForceLayout();
 
@@ -76,8 +76,8 @@ namespace Rg.Plugins.Popup.WPF.Impl
 
                 Cleanup(page);
                 page.Parent = null;
-                popup.Child = null;
-                popup.IsOpen = false;
+                popup.Content = null;
+                popup.Close();
             }
 
             await Task.Delay(5);
