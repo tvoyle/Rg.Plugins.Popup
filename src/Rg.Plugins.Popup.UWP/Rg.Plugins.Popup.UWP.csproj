@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rg.Plugins.Popup.UWP</RootNamespace>
     <AssemblyName>Rg.Plugins.Popup.UWP</AssemblyName>
-    <DefaultLanguage>en</DefaultLanguage>
+    <DefaultLanguage>ru-RU</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
