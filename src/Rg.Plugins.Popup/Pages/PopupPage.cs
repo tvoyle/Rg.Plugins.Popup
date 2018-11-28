@@ -8,18 +8,7 @@ using Xamarin.Forms;
 namespace Rg.Plugins.Popup.Pages
 {
     public class PopupPage : ContentPage
-    {
-        #region Private
-
-        private const string IsAnimatingObsoleteText = 
-            nameof(IsAnimating) + 
-            " is obsolute as of v1.1.5. Please use "
-            +nameof(IsAnimationEnabled) + 
-            " instead. See more info: "
-            +Config.MigrationV1_0_xToV1_1_xUrl;
-
-        #endregion
-
+    {       
         #region Internal Properties
 
         public bool IsBeingDismissed { get; set; }
@@ -33,16 +22,6 @@ namespace Rg.Plugins.Popup.Pages
         #endregion
 
         #region Bindable Properties
-
-        [Obsolete(IsAnimatingObsoleteText)]
-        public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create(nameof(IsAnimating), typeof(bool), typeof(PopupPage), true);
-
-        [Obsolete(IsAnimatingObsoleteText)]
-        public bool IsAnimating
-        {
-            get { return (bool)GetValue(IsAnimatingProperty); }
-            set { SetValue(IsAnimatingProperty, value); }
-        }
 
         public static readonly BindableProperty IsAnimationEnabledProperty = BindableProperty.Create(nameof(IsAnimationEnabled), typeof(bool), typeof(PopupPage), true);
 
@@ -110,13 +89,7 @@ namespace Rg.Plugins.Popup.Pages
             {
                 case nameof(HasSystemPadding):
                     ForceLayout();
-                    break;
-                case nameof(IsAnimating):
-                    IsAnimationEnabled = IsAnimating;
-                    break;
-                case nameof(IsAnimationEnabled):
-                    IsAnimating = IsAnimationEnabled;
-                    break;
+                    break;               
             }
         }
 
