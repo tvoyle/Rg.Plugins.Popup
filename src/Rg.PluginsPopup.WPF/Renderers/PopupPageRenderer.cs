@@ -15,6 +15,8 @@ namespace Rg.Plugins.Popup.Windows.Renderers
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
+        private System.Windows.Controls.Grid grid;
+
         private PopupPage CurrentElement => (PopupPage)Element;
 
         [Preserve]
@@ -32,8 +34,8 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
         internal void Prepare()
         {
-            var grid = GetTopGridFromWindow();
-
+            grid = GetTopGridFromWindow();
+            grid.SizeChanged += OnGridSizeChanged;
             //Control.Background = Brushes.Transparent;
             Control.Visibility = Visibility.Visible;
             System.Windows.Controls.Panel.SetZIndex(Control, 10000);
@@ -50,20 +52,27 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             Control.MouseDown += OnBackgroundClick;
         }
 
+        private void OnGridSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //Control.InvalidateMeasure();
+            OnLayoutUpdated(null, e);
+        }
+
         internal void Destroy()
         {
             CurrentElement.IsVisible = false;
-            GetTopGridFromWindow().Children.Remove(Control);
-
+            grid.Children.Remove(Control);
+            grid.SizeChanged -= OnGridSizeChanged;
+            grid = null;
             Control.MouseDown -= OnBackgroundClick;
             Control.LayoutUpdated -= OnLayoutUpdated;
         }
 
         private void OnLayoutUpdated(object sender, EventArgs e)
         {
-            if (CurrentElement.Width != Control.ActualWidth)
+            if (CurrentElement.Width != grid.ActualWidth)
             {
-                CurrentElement.Layout(new Rectangle(0, 0, Control.ActualWidth, Control.ActualHeight));
+                CurrentElement.Layout(new Rectangle(0, 0, grid.ActualWidth, grid.ActualHeight));
             }
         }
 
