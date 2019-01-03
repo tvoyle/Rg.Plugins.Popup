@@ -35,21 +35,22 @@ namespace Rg.Plugins.Popup.Windows.Renderers
         internal void Prepare()
         {
             grid = GetTopGridFromWindow();
-            grid.SizeChanged += OnGridSizeChanged;
-            //Control.Background = Brushes.Transparent;
-            Control.Visibility = Visibility.Visible;
-            System.Windows.Controls.Panel.SetZIndex(Control, 10000);
-            System.Windows.Controls.Grid.SetColumn(Control, 0);
-            System.Windows.Controls.Grid.SetColumnSpan(Control, grid.ColumnDefinitions.Count + 1);
-            System.Windows.Controls.Grid.SetRow(Control, 1);
-            System.Windows.Controls.Grid.SetRowSpan(Control, grid.RowDefinitions.Count);
+            if (!grid.Children.Contains(Control))
+            {
+                grid.SizeChanged += OnGridSizeChanged;
+                System.Windows.Controls.Panel.SetZIndex(Control, 10000);
+                System.Windows.Controls.Grid.SetColumn(Control, 0);
+                System.Windows.Controls.Grid.SetColumnSpan(Control, grid.ColumnDefinitions.Count + 1);
+                System.Windows.Controls.Grid.SetRow(Control, 1);
+                System.Windows.Controls.Grid.SetRowSpan(Control, grid.RowDefinitions.Count);
 
-            grid.Children.Add(Control);
+                grid.Children.Add(Control);
 
-            //grid.UpdateLayout();
-            //CurrentElement.ForceLayout();
-            Control.LayoutUpdated += OnLayoutUpdated;
-            Control.MouseDown += OnBackgroundClick;
+                //grid.UpdateLayout();
+                //CurrentElement.ForceLayout();
+                Control.LayoutUpdated += OnLayoutUpdated;
+                Control.MouseDown += OnBackgroundClick;
+            }
         }
 
         private void OnGridSizeChanged(object sender, SizeChangedEventArgs e)
