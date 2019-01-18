@@ -4,6 +4,7 @@ using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WPF.Impl;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -19,6 +20,7 @@ namespace Rg.Plugins.Popup.WPF.Impl
     class PopupPlatformWPF : IPopupPlatform
     {
         private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
+        private HashSet<PopupPage> set = new HashSet<PopupPage>();
 
         public event EventHandler OnInitialized
         {
@@ -53,7 +55,12 @@ namespace Rg.Plugins.Popup.WPF.Impl
 
         public async Task AddAsync(PopupPage page)
         {
-           page.Parent = Application.Current.MainPage;
+            if (set.Contains(page))
+                return;
+
+            set.Add(page);
+
+            page.Parent = Application.Current.MainPage;
 
             var renderer = (PopupPageRenderer)XPlatform.GetOrCreateRenderer(page);
             renderer.Prepare();
@@ -64,11 +71,12 @@ namespace Rg.Plugins.Popup.WPF.Impl
 
         public async Task RemoveAsync(PopupPage page)
         {
+            set.Remove(page);
             var renderer = (PopupPageRenderer)XPlatform.GetOrCreateRenderer(page);
             renderer.Destroy();
 
             Cleanup(page);
-            page.Parent = null;            
+            page.Parent = null;
             await Task.Delay(5);
         }
 
