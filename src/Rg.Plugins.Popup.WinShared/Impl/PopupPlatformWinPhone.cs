@@ -9,7 +9,6 @@ using Rg.Plugins.Popup.WinPhone.Impl;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
-using System.Collections.Generic;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
 using Windows.UI.Core;
@@ -25,7 +24,6 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
     class PopupPlatformWinPhone : IPopupPlatform
     {
         private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
-        private HashSet<PopupPage> set = new HashSet<PopupPage>();
 
         public event EventHandler OnInitialized
         {
@@ -66,42 +64,24 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
             }
         }
 
-        public async Task AddAsync(PopupPage page)
+        public Task AddAsync(PopupPage page)
         {
-            if (set.Contains(page))
-                return;
-
-            set.Add(page);
-
             page.Parent = Application.Current.MainPage;
 
-            var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
+            renderer.Prepare();
 
-            renderer.Prepare(popup);
-            popup.Child = renderer.ContainerElement;
-            popup.IsOpen = true;
-            page.ForceLayout();
-            await Task.Delay(5);
+            return Task.FromResult<object>(null);
         }
 
-        public async Task RemoveAsync(PopupPage page)
+        public Task RemoveAsync(PopupPage page)
         {
-            set.Remove(page);
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
-            var popup = renderer.Container;
+            renderer.Destroy();
+            Cleanup(page);
+            page.Parent = null;
 
-            if (popup != null)
-            {
-                renderer.Destroy();
-
-                Cleanup(page);
-                page.Parent = null;
-                popup.Child = null;
-                popup.IsOpen = false;
-            }
-
-            await Task.Delay(5);
+            return Task.FromResult<object>(null);
         }
 
         internal static void Cleanup(VisualElement element)

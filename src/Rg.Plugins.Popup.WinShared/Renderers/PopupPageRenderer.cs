@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
@@ -11,89 +12,79 @@ using Rg.Plugins.Popup.Windows.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Size = Windows.Foundation.Size;
+using Windows.UI.Xaml.Media;
+using System.Collections.Generic;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
 #elif WINDOWS_PHONE_APP
 using Xamarin.Forms.Platform.WinRT;
 #endif
-using WinPopup = global::Windows.UI.Xaml.Controls.Primitives.Popup;
+using WinPopup = Windows.UI.Xaml.Controls.Primitives.Popup;
 
-[assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Windows.Renderers
 {
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
         private Rect _keyboardBounds;
-
-        internal WinPopup Container { get; private set; }
-
+        private Canvas grid;
         private PopupPage CurrentElement => (PopupPage)Element;
 
         [Preserve]
         public PopupPageRenderer()
         {
-            
         }
 
-        private void OnKeyboardHiding(InputPane sender, InputPaneVisibilityEventArgs args)
+        internal void Prepare()
         {
-            _keyboardBounds = Rect.Empty;
-            UpdateElementSize();
+            grid = GetTopGridFromWindow();
+            if (!grid.Children.Contains(ContainerElement))
+            {
+                grid.SizeChanged += OnGridSizeChanged;
+                Canvas.SetZIndex(ContainerElement, 10000);
+                Canvas.SetTop(ContainerElement, 0);
+                Canvas.SetLeft(ContainerElement, 0);
+
+                grid.Children.Add(ContainerElement);
+
+                //grid.UpdateLayout();
+                //CurrentElement.ForceLayout();
+
+                ContainerElement.LayoutUpdated += OnLayoutUpdated;
+                ContainerElement.PointerPressed += OnBackgroundClick;
+            }
         }
 
-        private void OnKeyboardShowing(InputPane sender, InputPaneVisibilityEventArgs args)
+        private void OnGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _keyboardBounds = sender.OccludedRect;
-            UpdateElementSize();
+            //Control.InvalidateMeasure();
+            OnLayoutUpdated(null, e);
         }
 
-        protected override Size ArrangeOverride(Size finalSize)
+        private void OnLayoutUpdated(object sender, object e)
         {
-            UpdateElementSize();
-
-            return base.ArrangeOverride(finalSize);
+            if (CurrentElement.Width != grid.ActualWidth)
+            {
+                CurrentElement.Layout(new Rectangle(0, 0, grid.ActualWidth, grid.ActualHeight));
+            }
         }
-
-        internal void Prepare(WinPopup container)
-        {
-            Container = container;
-
-            Window.Current.SizeChanged += OnSizeChanged;
-            DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
-
-            InputPane inputPane = InputPane.GetForCurrentView();
-            inputPane.Showing += OnKeyboardShowing;
-            inputPane.Hiding += OnKeyboardHiding;
-
-            ContainerElement.PointerPressed += OnBackgroundClick;
-        }
+       
 
         internal void Destroy()
         {
-            Container = null;
-
-            Window.Current.SizeChanged -= OnSizeChanged;
-            DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
-
-            InputPane inputPane = InputPane.GetForCurrentView();
-            inputPane.Showing -= OnKeyboardShowing;
-            inputPane.Hiding -= OnKeyboardHiding;
-
-            ContainerElement.PointerPressed -= OnBackgroundClick;
+            if (grid != null)
+            {
+                CurrentElement.IsVisible = false;
+                grid.Children.Remove(ContainerElement);
+                grid.SizeChanged -= OnGridSizeChanged;
+                grid = null;
+                ContainerElement.PointerPressed -= OnBackgroundClick;
+                ContainerElement.LayoutUpdated -= OnLayoutUpdated;
+            }
         }
 
-        private void OnOrientationChanged(DisplayInformation sender, object args)
-        {
-            UpdateElementSize();
-        }
-
-        private void OnSizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            UpdateElementSize();
-        }
-
-        private void OnBackgroundClick(object sender, PointerRoutedEventArgs e)
+       private void OnBackgroundClick(object sender, PointerRoutedEventArgs e)
         {
             if (e.OriginalSource == this)
             {
@@ -101,34 +92,23 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             }
         }
 
-        private async void UpdateElementSize()
+        private Canvas GetTopGridFromWindow()
         {
-            await Task.Delay(50);
+            return GetChildGrid(Window.Current.Content);
+        }
 
-            var windowBound = Window.Current.Bounds;
-            var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-
-            var top = visibleBounds.Top - windowBound.Top;
-            var bottom = windowBound.Bottom - visibleBounds.Bottom;
-            var left = visibleBounds.Left - windowBound.Left;
-            var right = windowBound.Right - visibleBounds.Right;
-
-            top = Math.Max(0, top);
-            bottom = Math.Max(0, bottom);
-            left = Math.Max(0, left);
-            right = Math.Max(0, right);
-
-            if(_keyboardBounds != Rect.Empty)
-                bottom += _keyboardBounds.Height;
-
-            var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
-
-            CurrentElement.BatchBegin();
-
-            CurrentElement.SetSystemPadding(systemPadding);
-            CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-
-            CurrentElement.BatchCommit();
+        private Canvas GetChildGrid(DependencyObject content)
+        {
+            if (content is Canvas grid)
+                return grid;
+            var count = VisualTreeHelper.GetChildrenCount(content);
+            for (int i = 0; i < count; i++)
+            {
+                grid = GetChildGrid(VisualTreeHelper.GetChild(content, i));
+                if (grid != null)
+                    return grid;
+            }
+            return null;
         }
     }
 }
