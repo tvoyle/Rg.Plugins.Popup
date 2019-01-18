@@ -8,9 +8,10 @@ using Xamarin.Forms;
 namespace Rg.Plugins.Popup.Pages
 {
     public class PopupPage : ContentPage
-    {       
+    {
         #region Internal Properties
 
+        public bool IsBeingAppear { get; set; }
         public bool IsBeingDismissed { get; set; }
 
         #endregion
