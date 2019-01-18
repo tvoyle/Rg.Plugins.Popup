@@ -4,7 +4,6 @@ using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WPF.Impl;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -20,7 +19,6 @@ namespace Rg.Plugins.Popup.WPF.Impl
     class PopupPlatformWPF : IPopupPlatform
     {
         private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
-        private HashSet<PopupPage> set = new HashSet<PopupPage>();
 
         public event EventHandler OnInitialized
         {
@@ -53,31 +51,23 @@ namespace Rg.Plugins.Popup.WPF.Impl
             }
         }
 
-        public async Task AddAsync(PopupPage page)
+        public Task AddAsync(PopupPage page)
         {
-            if (set.Contains(page))
-                return;
-
-            set.Add(page);
-
             page.Parent = Application.Current.MainPage;
 
             var renderer = (PopupPageRenderer)XPlatform.GetOrCreateRenderer(page);
             renderer.Prepare();
 
-            //page.ForceLayout();
-            await Task.Delay(5);
+            return Task.FromResult<object>(null);
         }
 
-        public async Task RemoveAsync(PopupPage page)
+        public Task RemoveAsync(PopupPage page)
         {
-            set.Remove(page);
             var renderer = (PopupPageRenderer)XPlatform.GetOrCreateRenderer(page);
             renderer.Destroy();
-
             Cleanup(page);
             page.Parent = null;
-            await Task.Delay(5);
+            return Task.FromResult<object>(null);
         }
 
         internal static void Cleanup(VisualElement element)

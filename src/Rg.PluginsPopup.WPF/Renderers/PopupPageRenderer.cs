@@ -61,12 +61,15 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
         internal void Destroy()
         {
-            CurrentElement.IsVisible = false;
-            grid.Children.Remove(Control);
-            grid.SizeChanged -= OnGridSizeChanged;
-            grid = null;
-            Control.MouseDown -= OnBackgroundClick;
-            Control.LayoutUpdated -= OnLayoutUpdated;
+            if (grid != null)
+            {
+                CurrentElement.IsVisible = false;
+                grid.Children.Remove(Control);
+                grid.SizeChanged -= OnGridSizeChanged;
+                grid = null;
+                Control.MouseDown -= OnBackgroundClick;
+                Control.LayoutUpdated -= OnLayoutUpdated;
+            }
         }
 
         private void OnLayoutUpdated(object sender, EventArgs e)
