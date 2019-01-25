@@ -82,7 +82,8 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
         private void OnBackgroundClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.OriginalSource == Control || e.OriginalSource is System.Windows.Controls.Border)
+            if (e.OriginalSource == Control
+                || (e.OriginalSource is System.Windows.Controls.Border border && border.Parent == null))
             {
                 CurrentElement.SendBackgroundClick();
             }
