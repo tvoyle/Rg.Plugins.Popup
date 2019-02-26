@@ -41,8 +41,8 @@ namespace Rg.Plugins.Popup.Windows.Renderers
                 System.Windows.Controls.Panel.SetZIndex(Control, 10000);
                 System.Windows.Controls.Grid.SetColumn(Control, 0);
                 System.Windows.Controls.Grid.SetColumnSpan(Control, grid.ColumnDefinitions.Count + 1);
-                System.Windows.Controls.Grid.SetRow(Control, 1);
-                System.Windows.Controls.Grid.SetRowSpan(Control, grid.RowDefinitions.Count);
+                System.Windows.Controls.Grid.SetRow(Control, 0);
+                System.Windows.Controls.Grid.SetRowSpan(Control, grid.RowDefinitions.Count+1);
 
                 grid.Children.Add(Control);
 
