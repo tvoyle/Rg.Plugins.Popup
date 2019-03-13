@@ -27,7 +27,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
-        private Rect _keyboardBounds;
+        //private Rect _keyboardBounds;
         private Canvas grid;
         private PopupPage CurrentElement => (PopupPage)Element;
 
