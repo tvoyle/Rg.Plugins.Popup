@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B8934FC2-8E2C-4A88-B519-A5552C2F3819}</ProjectGuid>
     <OutputType>library</OutputType>
-    <AssemblyName>Rg.PluginsPopup.WPF</AssemblyName> 
-    <RootNamespace>Rg.PluginsPopup.WPF</RootNamespace>
+    <AssemblyName>Rg.Plugins.Popup.WPF</AssemblyName> 
+    <RootNamespace>Rg.Plugins.Popup.WPF</RootNamespace>
     <TargetFramework>net461</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

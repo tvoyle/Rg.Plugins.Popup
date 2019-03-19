@@ -21,8 +21,8 @@ Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases</descript
     <files>
       <file src="readme.txt" target="readme.txt" /> 
       <!--PCL-->
-      <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard1.0\Rg.Plugins.Popup.dll" target="lib\netstandard1.0" />
-      <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard1.0\Rg.Plugins.Popup.pdb" target="lib\netstandard1.0" />
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard2.0\Rg.Plugins.Popup.dll" target="lib\netstandard2.0" />
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard2.0\Rg.Plugins.Popup.pdb" target="lib\netstandard2.0" />
       <!--Android-->
       <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoAndroid" />
       <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.pdb" target="lib\MonoAndroid" />
@@ -45,5 +45,10 @@ Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases</descript
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.pdb" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.dll" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.pdb" target="lib\uap10.0" />
+      <!--wpf-->
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\net461\Rg.Plugins.Popup.dll" target="lib\net461" />
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\net461\Rg.Plugins.Popup.pdb" target="lib\net461" />
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\net461\Rg.Plugins.Popup.WPF.dll" target="lib\net461" />
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\net461\Rg.Plugins.Popup.WPF.pdb" target="lib\net461" />
     </files>
 </package>

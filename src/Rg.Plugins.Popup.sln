@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C18A37DD
 		..\appveyor.yml = ..\appveyor.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rg.PluginsPopup.WPF", "Rg.PluginsPopup.WPF\Rg.PluginsPopup.WPF.csproj", "{B8934FC2-8E2C-4A88-B519-A5552C2F3819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rg.Plugins.Popup.WPF", "Rg.Plugins.Popup.WPF\Rg.Plugins.Popup.WPF.csproj", "{B8934FC2-8E2C-4A88-B519-A5552C2F3819}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

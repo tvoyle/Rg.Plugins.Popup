@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Rg.PluginsPopup.WPF.Properties {
+namespace Rg.Plugins.Popup.WPF.Properties {
     using System;
     
     
